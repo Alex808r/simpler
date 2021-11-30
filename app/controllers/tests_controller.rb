@@ -1,7 +1,6 @@
 class TestsController < Simpler::Controller
 
   def index
-    @time = Time.now
     @tests = Test.all
   end
 
