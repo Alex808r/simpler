@@ -3,7 +3,7 @@ require 'logger'
 class AppLogger
 
   def initialize(app, **options)
-    @logger = Logger.new(options[:logdev])
+    @logger = Logger.new(options[:logdev] || STDOUT)
     @app = app
   end
 
@@ -20,8 +20,9 @@ class AppLogger
 
     "\n
     Request: #{env['REQUEST_METHOD']} #{env['REQUEST_URI']}
-    Handler: #{env['simpler.controller'].class}##{action}
+    Handler: #{env['simpler.controller'].class} #{action}
     Parameters: #{env['simpler.params']}
-    Response: #{status} #{headers['Content-Type']} #{env['simpler.controller'].name}/#{action}.html.erb"
+    Response: #{status} #{headers['Content-Type']} #{env['simpler.controller']&.name}/#{action}.html.erb"
   end
 end
+
