@@ -35,7 +35,7 @@ module Simpler
     end
 
     def set_default_headers
-      set_headers(:plain)
+      set_headers(:html)
     end
 
     def write_response
