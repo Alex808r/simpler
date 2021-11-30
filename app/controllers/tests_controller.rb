@@ -8,7 +8,10 @@ class TestsController < Simpler::Controller
   def create; end
 
   def show
-    @params = @request.params[:id]
+    @params = @request.env['simpler.params']
+    @test = Test.find (@params[:id])
+    # @request.env['simpler.controller']
+    #simpler.params"=>{:id=>555}
   end
 
 end

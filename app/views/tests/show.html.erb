@@ -7,6 +7,12 @@
 <body>
   <h1>Simpler framework at work!</h1>
 
-  <p><%= @params %></p>
+  <% @test.each do |attrtibut|  %></p>
+  <p>
+    <%= attrtibut.id %>
+    <%= attrtibut.title %>
+    <%= attrtibut.level %>
+  </p>
+      <% end %>
 </body>
 </html>
