@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     logger (1.4.2)
     sequel (5.50.0)

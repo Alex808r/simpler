@@ -25,4 +25,3 @@ class AppLogger
     Response: #{status} #{headers['Content-Type']} #{env['simpler.controller']&.name}/#{action}.html.erb"
   end
 end
-
