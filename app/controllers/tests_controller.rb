@@ -8,10 +8,7 @@ class TestsController < Simpler::Controller
 
   def show
     params = @request.env['simpler.params']
-    #@test = Test.find (@params[:id])
     @test = Test.where(id: (params[:id]))
-
-    # @request.env['simpler.controller']
   end
 
 end
