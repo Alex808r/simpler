@@ -3,6 +3,8 @@ require_relative 'view'
 module Simpler
   class Controller
 
+    HEADERS_TYPES = {html: 'text/html', plain: 'text/plain'}.freeze
+
     attr_reader :name, :request, :response
 
     def initialize(env)
@@ -24,12 +26,16 @@ module Simpler
 
     private
 
+    def set_status(code)
+      @response.status = code
+    end
+
     def extract_name
       self.class.name.match('(?<name>.+)Controller')[:name].downcase
     end
 
     def set_default_headers
-      @response['Content-Type'] = 'text/html'
+      set_headers(:html)
     end
 
     def write_response
@@ -42,12 +48,27 @@ module Simpler
       View.new(@request.env).render(binding)
     end
 
-    def params
-      @request.params
+    def set_params
+      @request.params.merge!(@request.env['simpler.params'])
     end
 
     def render(template)
-      @request.env['simpler.template'] = template
+      if template.is_a?(Hash)
+        @request.env['simpler.plain_text'] = template.first[1]
+      else
+        @request.env['simpler.template'] = template
+      end
+    end
+
+    def set_headers(type)
+      header_type_valid?(type)
+      @response['Content-type'] = HEADERS_TYPES[type]
+      @request.env['simpler.content_type'] = type
+    end
+
+    def header_type_valid?(type)
+      controller_action = "#{self.class.name}##{@request.env['simpler.action']}"
+      raise "Unknown content type `#{type}` in #{controller_action}" unless HEADERS_TYPES.key?(type)
     end
 
   end
